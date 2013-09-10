@@ -9,7 +9,7 @@ JSON file backend for [Modinha](https://github.com/christiansmith/Modinha).
 Example:
 
     var Modinha = require('modinha')
-      , JSONFile = require('./index')
+      , JSONFile = require('modinha-json')
       ;
      
     var Widget = Modinha.extend(null, {
