@@ -7,12 +7,12 @@ var _      = require('underscore')
 
 function JSONFile (collection, config) {
   this.config = config || {};
-  this.file = path.join(config.path, collection + '.json');
+  var file = this.file = path.join(config.path, collection + '.json');
 
-  fs.exists(this.file, function (exists) {
+  fs.exists(file, function (exists) {
     if (!exists) {
-      fs.writeFile(this.file, JSON.stringify([]), function (err) {
-        console.log('created ' + this.file);
+      fs.writeFile(file, JSON.stringify([]), function (err) {
+        console.log('created ' + file);
       });
     }
   });
