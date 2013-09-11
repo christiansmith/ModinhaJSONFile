@@ -5,13 +5,14 @@ var _      = require('underscore')
   ;
 
 
-function JSONFile (config) {
-  this.config = config;
+function JSONFile (collection, config) {
+  this.config = config || {};
+  this.file = path.join(config.path, collection + '.json');
 
-  fs.exists(this.config.path, function (exists) {
+  fs.exists(this.file, function (exists) {
     if (!exists) {
-      fs.writeFile(config.path, JSON.stringify([]), function (err) {
-        console.log('created ' + this.config.path);
+      fs.writeFile(this.file, JSON.stringify([]), function (err) {
+        console.log('created ' + this.file);
       });
     }
   });
@@ -66,11 +67,11 @@ function find (data, conditions, callback) {
 
 
 JSONFile.prototype.save = function (doc, callback) {
-  var config = this.config;
-  read(config.path, function (err, data) {
+  var file = this.file;
+  read(file, function (err, data) {
     if (err) { return callback(err); }
     data.push(doc);
-    write(config.path, data, callback);
+    write(file, data, callback);
   });
 };
 
@@ -81,7 +82,7 @@ JSONFile.prototype.find = function (conditions, options, callback) {
     options = {};
   }
 
-  read(this.config.path, function (err, data) {
+  read(this.file, function (err, data) {
     if (err) { return callback(err); }
     find(data, conditions, callback);
   });
@@ -89,9 +90,9 @@ JSONFile.prototype.find = function (conditions, options, callback) {
 
 
 JSONFile.prototype.destroy = function(conditions, callback) {
-  var config = this.config;
+  var file = this.file;
 
-  read(config.path, function (err, data) {
+  read(file, function (err, data) {
     if (err) { return callback(err); }
 
     find(data, conditions, function (err, result) {
@@ -100,7 +101,7 @@ JSONFile.prototype.destroy = function(conditions, callback) {
       var i = data.indexOf(result);
       if (i !== -1) { data.splice(i, 1); }
 
-      write(config.path, data, callback);
+      write(file, data, callback);
     });
   });
 };

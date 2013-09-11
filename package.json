@@ -26,5 +26,8 @@
     "grunt-mocha-cov": "0.0.7",
     "chai": "~1.7.2",
     "modinha": "~0.0.10"
+  },
+  "dependencies": {
+    "underscore": "~1.5.2"
   }
 }

@@ -6,22 +6,28 @@ JSON file backend for [Modinha](https://github.com/christiansmith/Modinha).
 
     $ npm install modinha-json
 
-Example:
+Standalone example (writes to `data/widgets.json`):
 
-    var Modinha = require('modinha')
-      , JSONFile = require('modinha-json')
-      ;
+    new JSONFile('widgets', { path: 'data' });
+    
+
+Use with Modinha:
+
+    var Modinha = require('modinha');
      
-    var Widget = Modinha.extend(null, {
+    Modinha.adapter = {
+      type: 'modinha-json'      // npm module name or path as used by require()
+    };
+
+    var Widget = Modinha.extend('Widgets', null, {
       schema: {
         name:  { type: 'string' },
         color: { type: 'string' }
       },
-      backend: new JSONFile({ 
-        path: 'widgets.json' 
-      })
+
+      // Optional. Overrides first argument to extend.
+      collection: 'WidgetStorage'      
     });
-     
      
     Widget.create({ 
       name: 'widgeterific', 
@@ -33,7 +39,6 @@ Example:
         });
       });
     });
-
 
 
 ## The MIT License
